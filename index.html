@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Vueで作ったおみくじ</title>
+    </head>
+    <body>
+        <div id="app">
+            <div class="wrap">
+                <h2>おみくじです、↓の「クリック」と書いてある所をクリックするとあなたの運勢が表示されます</h2>
+                <div 
+                    id="btn"
+                    @click="change"
+                >
+                    {{question}}
+                </div>
+                
+            </div>
+            <div class="result" v-if="daikiti === true">
+                <img src="images/daikiti.jpg">
+                <p>おめでとう！</p>
+            </div>
+            <div class="result" v-if="tyukiti === true">
+                <img src="images/tyukiti.jpg">
+                <p>まあまあ、、かな</p>
+            </div>
+            <div class="result" v-if="daikyo === true">
+                <img src="images/daikyo.jpg">
+                <p>そんな時もあるよ</p>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data:{
+                    question:'クリック' ,
+                    omikujiArray:['大凶','中吉','大吉'],
+                    daikiti:false,
+                    tyukiti:false,
+                    daikyo:false
+                },
+                methods:{
+                    change:function(){
+                        let point = Math.floor(Math.random()*this.omikujiArray.length)
+                        this.question = this.omikujiArray[point]
+                        if(point === 2){
+                            this.daikiti = true;
+                            this.tyukiti = false;
+                            this.daikyo = false;
+                        }else if(point === 1){
+                            this.daikiti = false;
+                            this.tyukiti = true;
+                            this.daikyo = false;
+                        }else if(point === 0){
+                            this.daikiti = false;
+                            this.tyukiti = false;
+                            this.daikyo = true;
+                        }
+                    },
+                },
+            })
+        </script>
+        <style>
+            .wrap{
+                width: 350px;
+                margin:0 auto;
+            }
+            h2{
+                text-align: center;
+                font-size: 20px;
+            }
+            #btn{
+                width: 200px;
+                height: 200px;
+                background:#ef454a;
+                border-radius:50%;
+                margin:30px auto;
+                text-align: center;
+                line-height:200px;
+                color:#fff;
+                font-weight: bold;
+                font-size: 42px;
+                cursor:pointer;
+                box-shadow:0 10px 0 #d1483e;
+                user-select:none;
+            }
+            #btn:hover{
+                opacity:0.9;
+            }
+            #btn:active{
+                box-shadow:0 5px 0 #d1483e;
+                margin-top: 35px;
+            }
+            .result{
+                text-align: center;
+            }
+            img{
+                width: 300px;
+                display: block;
+                margin:0 auto;
+            }
+        </style>
+    </body>
+</html>
